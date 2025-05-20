@@ -13,6 +13,7 @@ who-done-git = "who_done_git.cli:main"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
+pre-commit = "2.21.0"
 
 [build-system]
 requires = ["poetry-core"]
