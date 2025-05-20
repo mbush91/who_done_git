@@ -1,12 +1,11 @@
 import os
-import tempfile
 import subprocess
 import shutil
 import sys
-import pathlib
 import pytest
 
 from who_done_git import cli
+
 
 def test_get_git_root(tmp_path):
     repo_dir = tmp_path / "repo"
@@ -14,6 +13,7 @@ def test_get_git_root(tmp_path):
     subprocess.run(["git", "init"], cwd=repo_dir, check=True)
     root = cli.get_git_root(str(repo_dir))
     assert os.path.samefile(root, str(repo_dir))
+
 
 def test_get_files_in_directory(tmp_path):
     d = tmp_path / "dir"
@@ -24,6 +24,7 @@ def test_get_files_in_directory(tmp_path):
     files = cli.get_files_in_directory(str(d))
     assert any("file1.py" in f for f in files)
     assert not any("__pycache__" in f or f.endswith(".pyc") for f in files)
+
 
 def test_print_summary(capsys):
     committers = {
@@ -38,6 +39,7 @@ def test_print_summary(capsys):
     assert "bar.py" in out
     assert "%" in out
 
+
 @pytest.mark.skipif(shutil.which("git") is None, reason="git not installed")
 def test_end_to_end(tmp_path):
     repo = tmp_path / "repo"
@@ -46,10 +48,18 @@ def test_end_to_end(tmp_path):
     f = repo / "test.py"
     f.write_text("one\ntwo\n")
     subprocess.run(["git", "add", "test.py"], cwd=repo, check=True)
-    subprocess.run(["git", "commit", "-m", "add test", "--author", "Alice <alice@example.com>"], cwd=repo, check=True)
+    subprocess.run(
+        ["git", "commit", "-m", "add test", "--author", "Alice <alice@example.com>"],
+        cwd=repo,
+        check=True,
+    )
     f.write_text("one\ntwo\nthree\n")
     subprocess.run(["git", "add", "test.py"], cwd=repo, check=True)
-    subprocess.run(["git", "commit", "-m", "add line", "--author", "Bob <bob@example.com>"], cwd=repo, check=True)
+    subprocess.run(
+        ["git", "commit", "-m", "add line", "--author", "Bob <bob@example.com>"],
+        cwd=repo,
+        check=True,
+    )
     # Now, run the CLI logic on this repo
     sys.argv = ["who-done-git", str(repo)]
     cli.main()
