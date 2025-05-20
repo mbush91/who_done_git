@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "who-done-git"
+version = "0.1.0"
+description = "Summarize git committers for files in a directory."
+authors = ["Mike Bush <mbush@retailcapital.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.scripts]
+who-done-git = "who_done_git.cli:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
