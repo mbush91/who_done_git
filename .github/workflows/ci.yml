@@ -16,9 +16,9 @@ jobs:
         with:
           python-version: '3.8'
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v3
+        uses: python-poetry/poetry@v1
         with:
-          poetry-version: '1.8.2'
+          version: '1.8.2'
       - name: Install dependencies
         run: poetry install --with dev
       - name: Run pre-commit
