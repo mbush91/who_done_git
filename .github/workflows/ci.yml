@@ -4,24 +4,28 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+    types:
+      - opened
+      - edited
+      - labeled
+      - synchronize
 
 jobs:
-  test:
+  pre-commit:
+    name: Run pre-commit checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.8'
-      - name: Install Poetry
-        uses: abatilo/actions-poetry@v3
-        with:
-          poetry-version: '1.8.2'
+      - name: Install poetry
+        run: pip install poetry==1.8.4
       - name: Install dependencies
         run: poetry install --with dev
-      - name: Run pre-commit
+      - name: Run pre-commit hooks
         run: poetry run pre-commit run --all-files
       - name: Run pytest
         run: poetry run pytest

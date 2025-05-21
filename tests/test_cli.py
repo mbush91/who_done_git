@@ -45,6 +45,10 @@ def test_end_to_end(tmp_path):
     repo = tmp_path / "repo"
     repo.mkdir()
     subprocess.run(["git", "init"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.name", "Test User"], cwd=repo, check=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.com"], cwd=repo, check=True
+    )
     f = repo / "test.py"
     f.write_text("one\ntwo\n")
     subprocess.run(["git", "add", "test.py"], cwd=repo, check=True)
