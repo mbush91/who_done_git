@@ -4,7 +4,11 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+    types:
+      - opened
+      - edited
+      - labeled
+      - synchronize
 
 jobs:
   test:
