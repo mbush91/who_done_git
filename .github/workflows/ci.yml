@@ -15,7 +15,7 @@ jobs:
     name: Run pre-commit checks
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository with submodules
+      - name: Checkout repository
         uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -23,6 +23,8 @@ jobs:
           python-version: '3.8'
       - name: Install poetry
         run: pip install poetry==1.8.4
+      - name: Install dependencies
+        run: poetry install --with dev
       - name: Run pre-commit hooks
         run: poetry run pre-commit run --all-files
       - name: Run pytest
